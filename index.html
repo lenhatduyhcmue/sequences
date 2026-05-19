@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warm-up: Sequence Master Challenge</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #0b3c5d;
+            --secondary-color: #328cc1;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #1d2731;
+            --selected-color: #f39c12;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-top: 0;
+            font-size: 24px;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            font-size: 18px;
+            margin-top: 25px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .instruction {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .cloze-text {
+            line-height: 2.2;
+            font-size: 16px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .blank-select {
+            padding: 6px 10px;
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--primary-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Part 2: Interactive Matching Section */
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .grid-item {
+            background: #fff;
+            padding: 15px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            user-select: none;
+        }
+
+        .grid-item:hover {
+            border-color: var(--secondary-color);
+            background: #f8fafc;
+        }
+
+        .grid-item.selected {
+            border-color: var(--selected-color) !important;
+            background: #fff9db !important;
+        }
+
+        .grid-item.matched-temp {
+            border-color: var(--secondary-color);
+            background: #e0f2fe;
+        }
+
+        .grid-item.correct-status {
+            border-color: var(--success-color) !important;
+            background-color: #ecfdf5 !important;
+        }
+
+        .grid-item.incorrect-status {
+            border-color: var(--error-color) !important;
+            background-color: #fef2f2 !important;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .correct-zone { color: var(--success-color); background-color: #e8f8f5; border: 1px solid var(--success-color); }
+        .incorrect-zone { color: var(--error-color); background-color: #fdedec; border: 1px solid var(--error-color); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎮 SEQUENCE MASTER CHALLENGE (WARM-UP)</h1>
+        <p class="instruction">Complete the activities below to activate your mathematical memory before exploring new concepts!</p>
+
+        <h2>Part 1: Vocabulary Recall</h2>
+        <p class="instruction">Choose the correct terms to fill in the blanks:</p>
+        
+        <div class="cloze-text">
+            A <strong>sequence</strong> is a function whose 
+            <select class="blank-select" id="blank1">
+                <option value="">--choose--</option>
+                <option value="range">Range</option>
+                <option value="domain">Domain</option>
+                <option value="formula">Formula</option>
+            </select> 
+            is the set of 
+            <select class="blank-select" id="blank2">
+                <option value="">--choose--</option>
+                <option value="real_numbers">Real numbers</option>
+                <option value="positive_integers">Positive integers ($\mathbb{N}^*$)</option>
+                <option value="negative_integers">Negative integers</option>
+            </select>.<br>
+            • $u_1$ is called the 
+            <select class="blank-select" id="blank3">
+                <option value="">--choose--</option>
+                <option value="first_term">First term</option>
+                <option value="general_term">General term</option>
+                <option value="last_term">Last term</option>
+            </select>.<br>
+            • $u_n$ is called the 
+            <select class="blank-select" id="blank4">
+                <option value="">--choose--</option>
+                <option value="recurrence_term">Recurrence term</option>
+                <option value="first_term">First term</option>
+                <option value="general_term">General term (or $n$-th term)</option>
+            </select>.
+        </div>
+
+        <h2>Part 2: Representation Matching</h2>
+        <p class="instruction">Instruction: Click a <b>Sequence Card</b> on the left, then click its corresponding <b>Method Card</b> on the right to pair them up.</p>
+
+        <div class="matching-container">
+            <div class="column" id="sequences-col">
+                <div class="grid-item" id="left-1" data-id="1" onclick="selectItem(this, 'left')">
+                    A. $(u_n): 1, 4, 9, 16, 25, \dots$
+                </div>
+                <div class="grid-item" id="left-2" data-id="2" onclick="selectItem(this, 'left')">
+                    B. $(u_n): u_n = 3n - 1$
+                </div>
+                <div class="grid-item" id="left-3" data-id="3" onclick="selectItem(this, 'left')">
+                    C. $(u_n): \begin{cases} u_1 = 2 \\ u_{n+1} = 2u_n + 1 \end{cases}$
+                </div>
+                <div class="grid-item" id="left-4" data-id="4" onclick="selectItem(this, 'left')">
+                    D. $(u_n)$ is the sequence of prime numbers in increasing order.
+                </div>
+            </div>
+
+            <div class="column" id="methods-col">
+                <div class="grid-item" id="right-2" data-match="2" onclick="selectItem(this, 'right')">
+                    Using a general formula (Công thức SHTQ)
+                </div>
+                <div class="grid-item" id="right-4" data-match="4" onclick="selectItem(this, 'right')">
+                    By description (Bằng cách mô tả)
+                </div>
+                <div class="grid-item" id="right-1" data-match="1" onclick="selectItem(this, 'right')">
+                    Listing the terms (Liệt kê các số hạng)
+                </div>
+                <div class="grid-item" id="right-3" data-match="3" onclick="selectItem(this, 'right')">
+                    Using a recurrence relation (Hệ thức truy hồi)
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="evaluateAll()">Check My Answers</button>
+        <div id="result" class="result-box"></div>
+    </div>
+
+    <script>
+        let selectedLeft = null;
+        let selectedRight = null;
+        
+        // Lưu vết cặp nối dạng: { idBênTrái: thẻBênPhải }
+        let userSelections = {}; 
+
+        function selectItem(element, side) {
+            // Xóa các màu sắc kiểm tra cũ nếu học sinh thao tác lại
+            element.classList.remove('correct-status', 'incorrect-status');
+
+            if (side === 'left') {
+                if (selectedLeft) selectedLeft.classList.remove('selected');
+                selectedLeft = element;
+                selectedLeft.classList.add('selected');
+            } else {
+                if (selectedRight) selectedRight.classList.remove('selected');
+                selectedRight = element;
+                selectedRight.classList.add('selected');
+            }
+
+            // Khi chọn đủ 1 thẻ trái + 1 thẻ phải
+            if (selectedLeft && selectedRight) {
+                const leftId = selectedLeft.getAttribute('data-id');
+                
+                // Nếu thẻ bên phải này đã được nối cho thẻ khác trước đó, xóa liên kết cũ
+                for (let key in userSelections) {
+                    if (userSelections[key] === selectedRight) {
+                        delete userSelections[key];
+                    }
+                }
+
+                // Lưu liên kết mới
+                userSelections[leftId] = selectedRight;
+
+                // Cập nhật giao diện trạng thái đã ghép đôi (màu xanh dương nhạt)
+                // Trước hết xóa trạng thái cũ của toàn bộ các thẻ chưa check
+                refreshStyles();
+
+                // Reset con trỏ chọn
+                selectedLeft = null;
+                selectedRight = null;
+            }
+        }
+
+        function refreshStyles() {
+            // Đặt lại style cơ bản và tô màu xanh dương cho các cặp hiện tại đang nối
+            for (let i = 1; i <= 4; i++) {
+                let leftEl = document.getElementById(`left-${i}`);
+                leftEl.classList.remove('selected', 'matched-temp');
+                if (userSelections[i]) {
+                    leftEl.classList.add('matched-temp');
+                }
+            }
+
+            let rightItems = document.getElementById('methods-col').children;
+            for (let rightEl of rightItems) {
+                rightEl.classList.remove('selected', 'matched-temp');
+                // Kiểm tra xem thẻ phải này có nằm trong danh sách được chọn không
+                for (let key in userSelections) {
+                    if (userSelections[key] === rightEl) {
+                        rightEl.classList.add('matched-temp');
+                    }
+                }
+            }
+        }
+
+        function evaluateAll() {
+            let score = 0;
+            const totalQuestions = 8;
+
+            // 1. Check Part 1 (Cloze)
+            const clozeAnswers = {
+                blank1: "domain",
+                blank2: "positive_integers",
+                blank3: "first_term",
+                blank4: "general_term"
+            };
+
+            for (let key in clozeAnswers) {
+                let el = document.getElementById(key);
+                if (el.value === clozeAnswers[key]) {
+                    score++;
+                    el.style.borderColor = "var(--success-color)";
+                    el.style.backgroundColor = "#ecfdf5";
+                } else {
+                    el.style.borderColor = "var(--error-color)";
+                    el.style.backgroundColor = "#fef2f2";
+                }
+            }
+
+            // 2. Check Part 2 (Matching)
+            for (let i = 1; i <= 4; i++) {
+                let leftEl = document.getElementById(`left-${i}`);
+                let rightEl = userSelections[i];
+
+                leftEl.classList.remove('matched-temp', 'correct-status', 'incorrect-status');
+
+                if (rightEl) {
+                    rightEl.classList.remove('matched-temp', 'correct-status', 'incorrect-status');
+                    const matchId = rightEl.getAttribute('data-match');
+                    
+                    // Nếu id bên trái trùng khớp với mã match mong muốn bên phải
+                    if (String(i) === matchId) {
+                        score++;
+                        leftEl.classList.add('correct-status');
+                        rightEl.classList.add('correct-status');
+                    } else {
+                        leftEl.classList.add('incorrect-status');
+                        rightEl.classList.add('incorrect-status');
+                    }
+                } else {
+                    // Học sinh chưa nối thẻ trái này
+                    leftEl.classList.add('incorrect-status');
+                }
+            }
+
+            // Hiển thị tổng điểm
+            let resultBox = document.getElementById('result');
+            resultBox.style.display = "block";
+            
+            if (score === totalQuestions) {
+                resultBox.className = "result-box correct-zone";
+                resultBox.innerHTML = `🎉 Excellent! Perfect Score: ${score}/${totalQuestions}. You are a Sequence Master!`;
+            } else {
+                resultBox.className = "result-box incorrect-zone";
+                resultBox.innerHTML = `✍️ You achieved ${score}/${totalQuestions} points. Please re-check the red highlighted cards and try again!`;
+            }
+        }
+    </script>
+</body>
+</html>
